@@ -1,0 +1,9 @@
+let a = 23 + 1 *2;
+let x = 100;
+let b = 100;
+def hello(ok, ok2) = 
+	let b = b * x + a * (if a then 0 else 1);
+	b;
+
+let io= hello(231, 12);
+let c = 120;

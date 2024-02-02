@@ -1,0 +1,33 @@
+program:
+    | EOF
+    | stmts EOF
+
+stmts:
+    | stmt*
+
+stmt:
+    | def id paren_id_list = stmts expr ;
+    | let id = expr ;
+
+paren_id_list:
+    | ( [id [, id]*]? )
+
+paren_expr_list:
+    | ( [expr [, expr]*]? )
+
+expr:
+    | term
+    | term + expr
+    | term - expr
+
+term:
+    | factor
+    | factor * term
+    | factor / term
+
+factor:
+    | id paren_expr_list?
+    | num
+    | ( expr )
+    | if epxr then expr else expr
+	| - factor

@@ -1,0 +1,12 @@
+program = 
+    | Module(stmt* body)
+
+stmt = 
+    | FunctionDef()
+    | Assignment(id_ty target, expr_ty value)
+
+expr = 
+    | Identifier(id_ty id)
+    | Number(num_ty num)
+    | Binop(expr_ty left, operator_ty op, expr_ty right)
+    | FunctionCall(id_ty name, expr_seq args)
