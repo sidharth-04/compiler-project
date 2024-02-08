@@ -81,6 +81,7 @@ stmt_ty parseAssignment(parserState *ps) {
 		return 0;
 	}
 	else {
+		printf("parsed assignment %s\n", target->name);
 		topST->put(topST, target->name, getPrimitive(INT));
 	}
     if (!expectAndAdvance(ps, EQUAL)) {
@@ -210,7 +211,7 @@ expr_ty parseFactor(parserState *ps) {
     if (expectToken(ps, ID) && (name = parseIdentifier(ps))) {
 		SymbolTableTy topST = (SymbolTableTy)ps->stStack->top->curr;
 		if (!topST->search(topST, name->name)) {
-			logError(ps, ("Identifier %s has not yet been defined", name->name));
+			logError(ps, "Identifier has not yet been defined");
 			return 0;
 		}
         if (expectToken(ps, LPAR)) {

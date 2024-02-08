@@ -1,9 +1,14 @@
-let a = 23 + 1 *2;
-let x = 100;
-let b = 100;
-def hello(ok, ok2) = 
-	let b = b * x + a * (if a then 0 else 1);
-	b;
+let a = 23 + 10 *2;
+let d = a * 10;
+let s = 23 +- - - - !a;
+let s = 10;
+def t() = 23;
+def b(input) = 
+	let x = 100 + input;
+	133*23 + a * s - - a + a();
 
-let io= hello(231, 12);
-let c = 120;
+def e(arg, arg2) = 
+	let val = arg2+arg*23 + if 3 then 12 else 100;
+	val * 2;
+
+let x = 100;
