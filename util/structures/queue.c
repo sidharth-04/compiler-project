@@ -6,6 +6,7 @@ void attachNodeToQueue(QueueTy acc, void *tail) {
     if (acc->size == 0) {
         acc->head = tailNode;
         acc->tail = tailNode;
+		acc->currNode = acc->head;
     } else {
         acc->tail->next = tailNode;
         acc->tail = tailNode;
@@ -20,7 +21,7 @@ void resetQueue(QueueTy queue) {
 }
 
 int hasNextElement(QueueTy queue) {
-	return queue->currIndex < queue->size-1;
+	return queue->currIndex < queue->size;
 }
 
 void *getNextElement(QueueTy queue) {

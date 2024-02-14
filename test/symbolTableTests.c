@@ -1,3 +1,5 @@
+// #include "../util/structures/symbolTable.c"
+
 void runSymbolTableTests() {
-	printf("running queue tests");
+	printf("running symbol table tests");
 }
