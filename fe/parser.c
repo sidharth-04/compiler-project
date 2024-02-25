@@ -41,12 +41,12 @@ stmt_ty parseFunctionDef(parserState *ps) {
 		return 0;
 	}	
     if (!(name = parseIdentifier(ps))) return 0;
-	SymbolTableTy topST = (SymbolTableTy)ps->stStack->top->curr;
+	SymbolTableTy topST = (SymbolTableTy)ps->stStack->getTop(ps->stStack);
 	if (topST->contains(topST, name->name)) {
 		logError(ps, ("Cannot redfine function %s", name->name));
 		return 0;
 	} else {
-		topST->put(topST, name->name, getPrimitive(INT));
+		topST->put(topST, name->name, getPrimitive(GENERIC));
 	}
 	SymbolTableTy newST = buildSymbolTable();
 	ps->stStack->push(ps->stStack, newST);
@@ -75,14 +75,13 @@ stmt_ty parseAssignment(parserState *ps) {
 		return 0;
 	}
     if (!(target = parseIdentifier(ps))) return 0;
-	SymbolTableTy topST = (SymbolTableTy)ps->stStack->top->curr;
+	SymbolTableTy topST = (SymbolTableTy)ps->stStack->getTop(ps->stStack);
 	if (topST->contains(topST, target->name)) {
 		logError(ps, ("Identifier %s has already been defined", target->name));
 		return 0;
 	}
 	else {
-		printf("parsed assignment %s\n", target->name);
-		topST->put(topST, target->name, getPrimitive(INT));
+		topST->put(topST, target->name, getPrimitive(GENERIC));
 	}
     if (!expectAndAdvance(ps, EQUAL)) {
 		logError(ps, "Expected equals sign");
@@ -109,12 +108,12 @@ id_seq_ty parseParenthesizedIds(parserState *ps) {
 		return 0;
 	}
     if (!(toAdd = parseIdentifier(ps))) return 0;
-	SymbolTableTy topST = (SymbolTableTy)ps->stStack->top->curr;
+	SymbolTableTy topST = (SymbolTableTy)ps->stStack->getTop(ps->stStack);
 	if (topST->contains(topST, toAdd->name)) {
 		logError(ps, ("Identifier %s has already been defined", toAdd->name));
 		return 0;
 	}
-	topST->put(topST, toAdd->name, getPrimitive(INT));
+	topST->put(topST, toAdd->name, getPrimitive(GENERIC));
     attachIdToIdsAST(body, toAdd);
     while (expectAndAdvance(ps, COMMA)) {
 		if (!(expectToken(ps, ID))) {
@@ -126,7 +125,7 @@ id_seq_ty parseParenthesizedIds(parserState *ps) {
 			logError(ps, ("Identifier %s has already been defined", toAdd->name));
 			return 0;
 		}
-		topST->put(topST, toAdd->name, getPrimitive(INT));
+		topST->put(topST, toAdd->name, getPrimitive(GENERIC));
         attachIdToIdsAST(body, toAdd);
     }
     if (!expectAndAdvance(ps, RPAR)) {
@@ -161,10 +160,12 @@ expr_seq_ty parseParenthesizedExpressions(parserState *ps) {
 expr_ty parseExpression(parserState *ps) {
     expr_ty left;
     if (!(left = parseTerm(ps))) return 0;
-    if (expectToken(ps, PLUS) || expectToken(ps, MINUS)) {
+    if (expectToken(ps, PLUS) || expectToken(ps, MINUS) || expectToken(ps, AND) || expectToken(ps, OR)) {
         operator_ty operator;
         if (expectToken(ps, PLUS)) operator = Add;
         if (expectToken(ps, MINUS)) operator = Sub;
+		if (expectToken(ps, AND)) operator = And;
+		if (expectToken(ps, OR)) operator = Or;
         advanceParser(ps);
         expr_ty right;
         if (!(right = parseExpression(ps))) return 0;
@@ -209,7 +210,7 @@ expr_ty parseFactor(parserState *ps) {
     }
     id_ty name;
     if (expectToken(ps, ID) && (name = parseIdentifier(ps))) {
-		SymbolTableTy topST = (SymbolTableTy)ps->stStack->top->curr;
+		SymbolTableTy topST = (SymbolTableTy)ps->stStack->getTop(ps->stStack);
 		if (!topST->search(topST, name->name)) {
 			logError(ps, "Identifier has not yet been defined");
 			return 0;

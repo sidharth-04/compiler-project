@@ -16,15 +16,9 @@ int contains(SymbolTableTy st, char *name) {
 	QueueTy queue = st->entries;
 	queue->resetQueue(queue);
    	if (queue->isEmpty) return 0;
-	printf("CONTENTS:\n");
-	printf("Looking for: %s\n", name);
     while (queue->hasNextElement(queue)) {
         STEntry *entry = (STEntry *)queue->getNextElement(queue);
-		printf("%s\n", entry->name);
-		if (strcmp(entry->name, name) == 0) {
-			printf("Found\n");
-			return 1;
-		}
+		if (strcmp(entry->name, name) == 0) return 1;
 	}
 	return 0;
 }

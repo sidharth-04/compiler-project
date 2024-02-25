@@ -9,6 +9,7 @@ struct Stack {
 	StackNodeTy top;
 	void (*push)(StackTy, void*);
 	void *(*pop)(StackTy);
+	void *(*getTop)(StackTy);
 };
 
 

@@ -33,7 +33,7 @@ int main(int argc, char const *argv[]) {
 	initialize();
 	SymbolTableTy st = buildSymbolTable();
 	mod_ty astTree = parseProgram(programName, st);
-	// if (!astTree) return 0;
+	if (!astTree) return 0;
 	// if (!typecheckASTTree(astTree, st)) return 0;
 
 	// Now we can generate perfect llvm code without any errors, all errors have been taken care of

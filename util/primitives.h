@@ -1,10 +1,3 @@
-struct PrimitiveTypeList {
-	TypeTy Int;
-	TypeTy Bool;
-	TypeTy Str;
-	TypeTy Char;
-};
-
 TypeTy buildPrimitive(enum TypeCat cat) {
 	TypeTy built = (TypeTy)malloc(sizeof(struct Type));
 	built->cat = cat;
@@ -12,16 +5,26 @@ TypeTy buildPrimitive(enum TypeCat cat) {
 	return built;
 }
 
+struct PrimitiveTypeList {
+	TypeTy Int;
+	TypeTy Bool;
+	TypeTy Str;
+	TypeTy Char;
+	TypeTy Generic;
+};
 struct PrimitiveTypeList primitives;
 void buildPrimitives() {
 	primitives.Int = buildPrimitive(INT);
 	primitives.Bool = buildPrimitive(BOOL);
 	primitives.Str = buildPrimitive(STR);
 	primitives.Char = buildPrimitive(CHAR);
+	primitives.Generic = buildPrimitive(GENERIC);
 }
 
 TypeTy getPrimitive(enum TypeCat cat) {
 	switch(cat) {
+		case GENERIC:
+			return primitives.Generic;
 		case INT:
 			return primitives.Int;
 		case BOOL:

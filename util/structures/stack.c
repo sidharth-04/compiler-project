@@ -11,8 +11,12 @@ void push(StackTy stack, void *element) {
 	}
 }	
 
+void *getTop(StackTy stack) {
+	return (void*)stack->top->curr;
+}
+
 void *pop(StackTy stack) {
-	void *returnVal = stack->top->curr;
+	void *returnVal = stack->getTop(stack);
 	StackNodeTy newTop = stack->top->prev;
 	free(stack->top);
 	stack->top = newTop;
@@ -25,6 +29,7 @@ StackTy createStack() {
 	// methods
 	stack->push = push;
 	stack->pop = pop;
+	stack->getTop = getTop;
 	return stack;
 }
 void destroyStack(StackTy stack) {

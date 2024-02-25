@@ -15,9 +15,12 @@ struct Type {
 	enum TypeCat cat;
 	int numNested;
 	TypeTy nested[];
+	// Why use nested types, maybe, good for functions and records
 };
 
 #include "primitives.h";
+int checkTypeCat(TypeTy, enum TypeCat);
+int typeMatch(TypeTy, TypeTy);
 
 TypeTy buildFunctionType(int numNested, TypeTy nested[]) {
 	TypeTy built = (TypeTy)malloc(sizeof(struct Type));
@@ -40,6 +43,7 @@ TypeTy buildRecordType(int numNested, TypeTy nested[]) {
 }
 
 int typeMatch(TypeTy first, TypeTy second) {
+	if (checkTypeCat(first, GENERIC) || checkTypeCat(second, GENERIC)) return 1;
 	if (first->cat != second->cat) return 0;
 	if (first->numNested != second->numNested) return 0;
 	for (int i = 0; i < first->numNested; i ++) {
@@ -52,3 +56,12 @@ int checkTypeCat(TypeTy type, enum TypeCat cat) {
 	if (type->cat != cat) return 0;
 	return 1;
 }
+
+void coerceType(TypeTy first, TypeTy second) {
+	if (checkTypeCat(first, GENERIC)) {
+			
+	}
+}
+
+
+

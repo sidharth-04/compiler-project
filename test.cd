@@ -1,14 +1,14 @@
 let a = 23 + 10 *2;
 let d = a * 10;
 let s = 23 +- - - - !a;
-let s = 10;
 def t() = 23;
-def b(input) = 
-	let x = 100 + input;
+def bad(input) = 
+	let x = 100 + input and 100 or 1000;
 	133*23 + a * s - - a + a();
 
 def e(arg, arg2) = 
-	let val = arg2+arg*23 + if 3 then 12 else 100;
+	let a = 100;
+	let val = arg2+arg*23 + if 3 then 12 else a;
 	val * 2;
 
-let x = 100;
+let x = 100 + a;
