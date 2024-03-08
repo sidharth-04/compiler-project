@@ -13,6 +13,7 @@ struct PrimitiveTypeList {
 	TypeTy Generic;
 };
 struct PrimitiveTypeList primitives;
+// Make one version of all the base primitives
 void buildPrimitives() {
 	primitives.Int = buildPrimitive(INT);
 	primitives.Bool = buildPrimitive(BOOL);

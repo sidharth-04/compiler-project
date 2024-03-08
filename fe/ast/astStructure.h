@@ -23,7 +23,8 @@ struct _id_seq {
 
 enum _stmt_kind {
   FunctionDef_kind = 1,
-  Assignment_kind = 2
+  Assignment_kind = 2,
+  TypeDef_kind = 3
 };
 struct _stmt {
   enum _stmt_kind kind;
@@ -38,6 +39,10 @@ struct _stmt {
       id_ty target;
       expr_ty value;
     } Assignment;
+	struct {
+      id_ty target;
+      expr_ty value;
+    } TypeDef;
   } v;
 };
 

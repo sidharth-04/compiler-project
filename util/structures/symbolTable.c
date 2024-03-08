@@ -1,6 +1,7 @@
 #include "symbolTable.h"
 #include <string.h>
 
+// Generic find operation
 STEntry *find(SymbolTableTy st, char *name) {
 	QueueTy queue = st->entries;
 	queue->resetQueue(queue);
@@ -13,14 +14,9 @@ STEntry *find(SymbolTableTy st, char *name) {
 }
 
 int contains(SymbolTableTy st, char *name) {
-	QueueTy queue = st->entries;
-	queue->resetQueue(queue);
-   	if (queue->isEmpty) return 0;
-    while (queue->hasNextElement(queue)) {
-        STEntry *entry = (STEntry *)queue->getNextElement(queue);
-		if (strcmp(entry->name, name) == 0) return 1;
-	}
-	return 0;
+	STEntry *entry = find(st, name);
+	if (!entry) return 0;
+	return 1;
 }
 
 int search(SymbolTableTy st, char *name) {
@@ -31,8 +27,8 @@ int search(SymbolTableTy st, char *name) {
 	return 0;
 }
 
-void put(SymbolTableTy st, char *name, TypeTy type) {
-	STEntry *entry = buildSTEntry(type, name);
+void put(SymbolTableTy st, char *name, TypeTy type, int typeDeclaration) {
+	STEntry *entry = buildSTEntry(name, type, typeDeclaration);
 	QueueTy queue = st->entries;
 	queue->attachNodeToQueue(queue, entry);
 }
@@ -40,15 +36,31 @@ void put(SymbolTableTy st, char *name, TypeTy type) {
 void addChild(SymbolTableTy st, SymbolTableTy child) {
 	QueueTy queue = st->children;
 	queue->attachNodeToQueue(queue, child);
+	if (child->parent != st) child->setParent(child, st);
 }
 
 void setParent(SymbolTableTy st, SymbolTableTy parent) {
 	st->parent = parent;
+	QueueTy queue = parent->children;
+	queue->resetQueue(queue);
+	int alreadyAChild = 0;
+	while (queue->hasNextElement(queue)) {
+		if (queue->getNextElement(queue) != st) continue;
+		alreadyAChild = 1;
+		break;
+	}
+	if (!alreadyAChild) parent->addChild(parent, st);
 }
 
 void setType(SymbolTableTy st, char *name, TypeTy type) {
 	STEntry *entry = find(st, name);
 	entry->type = type;
+}
+
+TypeTy getType(SymbolTableTy st, char *name) {
+	STEntry *entry = find(st, name);
+	if (!entry) return 0;
+	return entry->type;
 }
 
 void setValue(SymbolTableTy st, char *name, void *val) {
@@ -67,6 +79,7 @@ SymbolTableTy buildSymbolTable() {
 	st->addChild = addChild;
 	st->setParent = setParent;
 	st->setType = setType;
+	st->getType = getType;
 	st->setValue = setValue;
 	return st;
 }

@@ -185,6 +185,8 @@ static void getToken(Tokenizer *tokenizer, Token *tok) {
 		// Add more identifiers
 		if (strncmp(tokenizer->currId, "def", 3) == 0 && i == 3) {
 			buildToken(tok, DEF, streamLineCount(stream));
+		} else if (strncmp(tokenizer->currId, "type", 4) == 0 && i == 4) {
+			buildToken(tok, DEF, streamLineCount(stream));
 		} else if (strncmp(tokenizer->currId, "let", 3) == 0 && i == 3) {
 			buildToken(tok, LET, streamLineCount(stream));
 		} else if (strncmp(tokenizer->currId, "if", 2) == 0 && i == 2) {

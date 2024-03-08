@@ -17,7 +17,7 @@ LLVM_FILE=$(BUILD_DIR)/compiler.ll
 # Default target
 all: clean compile
 
-test: $(COMPILE_TEST) 
+test: $(COMPILE_TEST)
 $(COMPILE_TESTS): cc test/tests.c
 
 compile: $(BUILD_DIR) $(OUTPUT_EXECUTABLE)

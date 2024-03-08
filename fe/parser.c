@@ -13,7 +13,7 @@ mod_ty parseModule(parserState *ps) {
 
 stmt_seq_ty parseStatements(parserState *ps) {
     stmt_seq_ty body = createStmsAST();
-    while (expectToken(ps, DEF) || expectToken(ps, LET)) {
+    while (expectToken(ps, DEF) || expectToken(ps, LET) || expectToken(ps, TYPE)) {
         stmt_ty stmt;
         if (!(stmt = parseStatement(ps))) return 0;
         attachStmtToStmtsAST(body, stmt);
@@ -28,30 +28,43 @@ stmt_ty parseStatement(parserState *ps) {
 	if (expectAndAdvance(ps, LET)) {
 		return parseAssignment(ps);
 	}
+	if (expectAndAdvance(ps, TYPE)) {
+		return parseAssignment(ps);
+	}
 	return 0;
 }
 
 stmt_ty parseFunctionDef(parserState *ps) {
+	id_ty returntype;
     id_ty name;
     id_seq_ty args;
     stmt_seq_ty body;
-    expr_ty ret;
-    if (!(expectToken(ps, ID))) {
+    expr_ty ret;	
+    if (!(returntype = parseIdentifier(ps))) return 0;
+	SymbolTableTy topST = (SymbolTableTy)ps->stStack->getTop(ps->stStack);
+	TypeTy typehint;
+	if (!(typehint = topST->getType(topST, returntype->name))) {
+		logError(ps, "Expected type hint but got something else");
+		return 0;
+	}
+	if (!expectAndAdvance(ps, COLON)) {
+		logError(ps, "Expected colon after type hint");
+		return 0;
+	}
+	if (!(expectToken(ps, ID))) {
 		logError(ps, "Expected identifier");
 		return 0;
-	}	
-    if (!(name = parseIdentifier(ps))) return 0;
-	SymbolTableTy topST = (SymbolTableTy)ps->stStack->getTop(ps->stStack);
+	}
+	if (!(name = parseIdentifier(ps))) return 0;
 	if (topST->contains(topST, name->name)) {
 		logError(ps, ("Cannot redfine function %s", name->name));
 		return 0;
 	} else {
-		topST->put(topST, name->name, getPrimitive(GENERIC));
+		topST->put(topST, name->name, typehint, 0);
 	}
 	SymbolTableTy newST = buildSymbolTable();
 	ps->stStack->push(ps->stStack, newST);
 	newST->setParent(newST, topST);
-	topST->addChild(topST, newST);
     if (!(args = parseParenthesizedIds(ps))) return 0;
     if (!expectAndAdvance(ps, EQUAL)) {
 		logError(ps, "Expected equals sign");
@@ -68,20 +81,39 @@ stmt_ty parseFunctionDef(parserState *ps) {
 }
 
 stmt_ty parseAssignment(parserState *ps) {
-    id_ty target;
+    id_ty first;
+	id_ty second;
     expr_ty value;
     if (!(expectToken(ps, ID))) {
 		logError(ps, "Expected identifier");
 		return 0;
 	}
-    if (!(target = parseIdentifier(ps))) return 0;
+    if (!(first = parseIdentifier(ps))) return 0;
 	SymbolTableTy topST = (SymbolTableTy)ps->stStack->getTop(ps->stStack);
-	if (topST->contains(topST, target->name)) {
-		logError(ps, ("Identifier %s has already been defined", target->name));
-		return 0;
-	}
-	else {
-		topST->put(topST, target->name, getPrimitive(GENERIC));
+	TypeTy typehint;
+	if ((typehint = topST->getType(topST, first->name))) {
+		if (!expectAndAdvance(ps, COLON)) {
+			logError(ps, "Expected colon after type hint");
+			return 0;
+		}
+		if (!(expectToken(ps, ID))) {
+			logError(ps, "Expected identifier");
+			return 0;
+		}
+		if (!(second = parseIdentifier(ps))) return 0;
+		if (topST->contains(topST, second->name)) {
+			logError(ps, ("Identifier %s has already been defined", second->name));
+			return 0;
+		}
+		topST->put(topST, second->name, typehint, 0);
+	} else {
+		if (topST->contains(topST, first->name)) {
+			logError(ps, ("Identifier %s has already been defined", first->name));
+			return 0;
+		}
+		else {
+			topST->put(topST, first->name, getPrimitive(GENERIC), 0);
+		}
 	}
     if (!expectAndAdvance(ps, EQUAL)) {
 		logError(ps, "Expected equals sign");
@@ -92,7 +124,7 @@ stmt_ty parseAssignment(parserState *ps) {
 		logError(ps, "Expected semicolon");
 		return 0;
 	}
-    return createAssignmentAST(target, value);
+    return createAssignmentAST(first, value);
 }
 
 id_seq_ty parseParenthesizedIds(parserState *ps) {
@@ -113,7 +145,7 @@ id_seq_ty parseParenthesizedIds(parserState *ps) {
 		logError(ps, ("Identifier %s has already been defined", toAdd->name));
 		return 0;
 	}
-	topST->put(topST, toAdd->name, getPrimitive(GENERIC));
+	topST->put(topST, toAdd->name, getPrimitive(GENERIC), 0);
     attachIdToIdsAST(body, toAdd);
     while (expectAndAdvance(ps, COMMA)) {
 		if (!(expectToken(ps, ID))) {
@@ -125,7 +157,7 @@ id_seq_ty parseParenthesizedIds(parserState *ps) {
 			logError(ps, ("Identifier %s has already been defined", toAdd->name));
 			return 0;
 		}
-		topST->put(topST, toAdd->name, getPrimitive(GENERIC));
+		topST->put(topST, toAdd->name, getPrimitive(GENERIC), 0);
         attachIdToIdsAST(body, toAdd);
     }
     if (!expectAndAdvance(ps, RPAR)) {

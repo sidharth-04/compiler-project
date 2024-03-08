@@ -6,6 +6,7 @@ enum TokenType {
 	ERROR,
 	DEF,
 	LET,
+	TYPE,
 	IF,
 	THEN,
 	ELSE,
@@ -45,7 +46,7 @@ enum TokenType {
 
 const char *tokenStrings[] = {
 	"END_OF_FILE", "ID", "NUM", "STRING", "ERROR",
-	"def", "let",
+	"def", "let", "type",
 	"if", "then", "else",
 	"or", "and",
 	"(", ")", "[", "]", ":", ",", ";", "+", "-", "*", "/", "<", ">", "=", ".", "%", "{", "}", "!",

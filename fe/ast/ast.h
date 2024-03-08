@@ -61,6 +61,14 @@ stmt_ty createAssignmentAST(id_ty target, expr_ty value) {
     return assignment;
 }
 
+stmt_ty createTypeDefAST(id_ty target, expr_ty value) {
+    stmt_ty typeDef = (stmt_ty)malloc(sizeof (struct _stmt));
+	typeDef->kind = TypeDef_kind;
+    typeDef->v.TypeDef.target = target;
+    typeDef->v.TypeDef.value = value;
+    return typeDef;
+}
+
 expr_ty createExprIdentifierAST(id_ty id) {
     expr_ty identifier = (expr_ty)malloc(sizeof(struct _expr));
 	identifier->kind = Identifier_kind;

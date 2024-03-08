@@ -5,7 +5,6 @@ typedef struct {
     Tokenizer *tokenizer;
 	Token *currTok;
 	StackTy stStack;
-    int errorState;
 } parserState;
 
 // Function definitions
@@ -23,25 +22,6 @@ id_ty parseIdentifier(parserState *ps);
 num_ty parseNumber(parserState *ps);
 void advanceParser(parserState *ps);
 
-void buildParser(parserState *ps, char filename[], SymbolTableTy st) {
-    ps->tokenizer = (Tokenizer *)malloc(sizeof(Tokenizer));
-    buildTokenizer(ps->tokenizer, filename);
-    ps->currTok = (Token *)malloc(sizeof(Token));
-    advanceParser(ps);
-	ps->stStack = createStack();
-	ps->stStack->push(ps->stStack, st);
-    ps->errorState = 0;
-}
-void destroyParser(parserState *ps) {
-    destroyTokenizer(ps->tokenizer);
-    free(ps->tokenizer);
-    destroyToken(ps->currTok);
-    free(ps->currTok);
-	pop(ps->stStack);
-	destroyStack(ps->stStack);
-	free(ps->stStack);
-}
-
 void advanceParser(parserState *ps) {
     getToken(ps->tokenizer, ps->currTok);
 }
@@ -57,4 +37,22 @@ int expectAndAdvance(parserState *ps, enum TokenType tt) {
 }
 Token *fetchCurrToken(parserState *ps) {
     return ps->currTok;
+}
+
+void buildParser(parserState *ps, char filename[], SymbolTableTy st) {
+    ps->tokenizer = (Tokenizer *)malloc(sizeof(Tokenizer));
+    buildTokenizer(ps->tokenizer, filename);
+    ps->currTok = (Token *)malloc(sizeof(Token));
+    advanceParser(ps);
+	ps->stStack = createStack();
+	ps->stStack->push(ps->stStack, st);
+}
+void destroyParser(parserState *ps) {
+    destroyTokenizer(ps->tokenizer);
+    free(ps->tokenizer);
+    destroyToken(ps->currTok);
+    free(ps->currTok);
+	pop(ps->stStack);
+	destroyStack(ps->stStack);
+	free(ps->stStack);
 }

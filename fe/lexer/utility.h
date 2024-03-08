@@ -70,3 +70,6 @@ int isNonzeroDigit(char c) {
   }
   return 0;
 }
+
+int stringMatch() {
+}

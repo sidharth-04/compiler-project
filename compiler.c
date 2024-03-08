@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// LLVM Core Libraries
 #include <llvm-c/Core.h>
 #include <llvm-c/ExecutionEngine.h>
 #include <llvm-c/Target.h>
@@ -9,7 +10,7 @@
 
 #include "util/structures/queue.c"
 #include "util/structures/stack.c"
-#include "util/typeSystem.h"
+#include "util/typesystem/typeSystem.h"
 #include "util/structures/symbolTable.c"
 #include "fe/parser.c"
 #include "visitors/visitor.h"
@@ -18,8 +19,13 @@
 
 #include "util/loggers/errorLogger.h";
 
-void initialize() {
-	buildPrimitives();
+// Populate symbol table with primitives
+void populatePrimitives(SymbolTableTy st) {
+	st->put(st, "int", primitives.Int, 1);
+	st->put(st, "bool", primitives.Bool, 1);
+	st->put(st, "str", primitives.Str, 1);
+	st->put(st, "char", primitives.Char, 1);
+	st->put(st, "gen", primitives.Generic, 1);
 }
 
 int main(int argc, char const *argv[]) {
@@ -27,11 +33,11 @@ int main(int argc, char const *argv[]) {
         logCompilerError("Usage: ./compiler program");
         exit(EXIT_FAILURE);
     }
-	// char *programName = strcat("../", strcat(argv[1], ".cd"));
 	char *programName = strcat(argv[1], ".cd");
 
-	initialize();
+	buildPrimitives();
 	SymbolTableTy st = buildSymbolTable();
+	populatePrimitives(st);
 	mod_ty astTree = parseProgram(programName, st);
 	if (!astTree) return 0;
 	// if (!typecheckASTTree(astTree, st)) return 0;

@@ -1,14 +1,16 @@
 let a = 23 + 10 *2;
-let d = a * 10;
+let d = d * 10;
 let s = 23 +- - - - !a;
-def t() = 23;
-def bad(input) = 
+let int:x = 100 + a;
+
+def int:t() = 23;
+
+def gen:bad(input) = 
 	let x = 100 + input and 100 or 1000;
-	133*23 + a * s - - a + a();
+	133*23 + a * s - - a + a() - x;
 
-def e(arg, arg2) = 
-	let a = 100;
-	let val = arg2+arg*23 + if 3 then 12 else a;
-	val * 2;
+def bool:e(arg, arg2) = 
+ 	let a = 100;
+ 	let val = arg2+arg*23 + if 3 then 12 else a;
+ 	val * 2;
 
-let x = 100 + a;
