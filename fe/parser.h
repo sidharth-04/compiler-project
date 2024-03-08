@@ -7,6 +7,8 @@ typedef struct {
 	StackTy stStack;
 } parserState;
 
+#include "parserUtils.h"
+
 // Function definitions
 mod_ty parseModule(parserState *ps);
 stmt_seq_ty parseStatements(parserState *ps);

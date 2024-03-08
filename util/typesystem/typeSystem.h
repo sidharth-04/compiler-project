@@ -8,11 +8,12 @@ enum TypeCat {
 
 typedef struct Type *TypeTy;
 
+// NEED to improve the definition of this struct, it needs to WAY more flexible
+// Tree like structure, can have nexted type definitions
 struct Type {
 	enum TypeCat cat;
 	int numNested;
 	TypeTy nested[];
-	// Why use nested types, maybe, good for functions and records
 };
 
 #include "primitives.h"
@@ -40,5 +41,17 @@ void coerceType(TypeTy first, TypeTy second) {
 	}
 }
 
-
-
+char *typeToString(TypeTy type) {
+	switch (type->cat) {
+		case GENERIC:
+			return "generic";
+		case INT:
+			return "int";
+		case BOOL:
+			return "bool";
+		case STR:
+			return "str";
+		case CHAR:
+			return "char";
+	}
+}

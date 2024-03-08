@@ -8,6 +8,12 @@
 
 typedef struct SymbolTable *SymbolTableTy;
 
+enum stCat {
+	VALUE,
+	TYPEDEF,
+	SCOPEDEF
+};
+
 typedef struct {
 	void *val;
 	char *name;
@@ -47,7 +53,7 @@ void printSymbolTable(SymbolTableTy st) {
 	if (queue->isEmpty) printf("Queue is empty!\n");
 	while (queue->hasNextElement(queue)) {
 		STEntry *entry = (STEntry *)queue->getNextElement(queue);
-		printf("%d: %s\n", i, entry->name);
+		printf("%d %s: %s\n", i, entry->name, typeToString(entry->type));
 		i ++;
 	}
 	QueueTy children = st->children;

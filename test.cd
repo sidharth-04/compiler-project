@@ -1,9 +1,9 @@
 let a = 23 + 10 *2;
 let d = d * 10;
-let s = 23 +- - - - !a;
+let bool:s = 23 +- - - - !a;
 let int:x = 100 + a;
 
-def int:t() = 23;
+def gen:t() = 23;
 
 def gen:bad(input) = 
 	let x = 100 + input and 100 or 1000;

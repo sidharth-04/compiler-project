@@ -9,6 +9,7 @@ stmt:
     | def id paren_id_list = stmts expr ;
     | let id = expr ;
 	| type id = type_expr ;
+	| scope { stmts } ;
 
 paren_id_list:
     | ( [id [, id]*]? )
@@ -17,30 +18,9 @@ paren_expr_list:
     | ( [expr [, expr]*]? )
 
 type_expr:
-	| id
-	| ( (type_expr id)* )
-	| | type_expr
-
-type hello =
-	| int first
-	| ( int second, int third ) world
-
-type struct {
-	int: hello
-	struct {
-		int: first
-		int: second
-	}: hello
-	bool: world,
-	enum {
-		| first
-		| second
-		| third
-	}: option
-} : hello
-
-type_pair:
-	| id : type_expr
+	| id						// Primitive/Level 1 type
+	| { [id : type_expr]* }		// Struct
+	| { [ | id : type_expr ]* }	// Enum
 
 expr:
     | term

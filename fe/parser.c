@@ -82,27 +82,25 @@ stmt_ty parseFunctionDef(parserState *ps) {
 
 stmt_ty parseAssignment(parserState *ps) {
     id_ty first;
+	TypeTy typehint;
 	id_ty second;
     expr_ty value;
-    if (!(expectToken(ps, ID))) {
+	SymbolTableTy topST = getTopSymbolTable(ps);
+    if (!(first = parseIdentifier(ps))) {
 		logError(ps, "Expected identifier");
 		return 0;
 	}
-    if (!(first = parseIdentifier(ps))) return 0;
-	SymbolTableTy topST = (SymbolTableTy)ps->stStack->getTop(ps->stStack);
-	TypeTy typehint;
 	if ((typehint = topST->getType(topST, first->name))) {
 		if (!expectAndAdvance(ps, COLON)) {
 			logError(ps, "Expected colon after type hint");
 			return 0;
 		}
-		if (!(expectToken(ps, ID))) {
+		if (!(second = parseIdentifier(ps))) {
 			logError(ps, "Expected identifier");
 			return 0;
 		}
-		if (!(second = parseIdentifier(ps))) return 0;
 		if (topST->contains(topST, second->name)) {
-			logError(ps, ("Identifier %s has already been defined", second->name));
+			logError(ps, ("Identifier has already been defined"));
 			return 0;
 		}
 		topST->put(topST, second->name, typehint, 0);

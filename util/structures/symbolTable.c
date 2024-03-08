@@ -60,6 +60,7 @@ void setType(SymbolTableTy st, char *name, TypeTy type) {
 TypeTy getType(SymbolTableTy st, char *name) {
 	STEntry *entry = find(st, name);
 	if (!entry) return 0;
+	if (!entry->typeDeclaration) return 0;
 	return entry->type;
 }
 
