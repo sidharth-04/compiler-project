@@ -1,18 +1,14 @@
-#include "buffer.c"
+#include "bufferedStream.h"
 
-typedef struct {
-    Buffer *buffer;
-    int linecount;
-} BufferedStream;
-
-void buildBufferedStream(BufferedStream *stream, char filename[]) {
-    stream->buffer = (Buffer *)malloc(sizeof(Buffer));
-    buildBuffer(stream->buffer, filename);
+BufferedStream *buildBufferedStream(char filename[]) {
+	BufferedStream *stream = (BufferedStream*)malloc(sizeof(BufferedStream));
+    stream->buffer = buildBuffer(filename);
     stream->linecount = 1;
+	return stream;
 }
 void destroyBufferedStream(BufferedStream *stream) {
     destroyBuffer(stream->buffer);
-    free(stream->buffer);
+	free(stream);
 }
 
 char streamPeek(BufferedStream *stream) {
@@ -30,14 +26,13 @@ void streamUnread(BufferedStream *stream) {
     if (streamPeek(stream) == '\n') {
         stream->linecount --;
     }
-}
+} 
 int streamLineCount(BufferedStream *stream) {
     return stream->linecount;
 }
 
 int testBufferedStream() {
-    BufferedStream *stream;
-    buildBufferedStream(stream, "hello.cd");
+    BufferedStream *stream = buildBufferedStream("hello.cd");
     char c;
     int i = 0;
     while ((c = streamRead(stream)) != EOF) {

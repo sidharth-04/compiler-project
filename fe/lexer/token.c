@@ -75,4 +75,5 @@ void buildErrToken(Token *token, int lineNo, char *errorMsg) {
 void destroyToken(Token *token) {
 	free(token->lexeme);
 	free(token->errorMsg);
+	free(token);
 }

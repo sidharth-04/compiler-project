@@ -14,6 +14,7 @@ void buildTokenizer(Tokenizer *tokenizer, char filename[]) {
 void destroyTokenizer(Tokenizer *tokenizer) {
 	destroyBufferedStream(tokenizer->stream);
 	free(tokenizer->stream);
+	free(tokenizer);
 }
 
 static void getToken(Tokenizer *tokenizer, Token *tok) {
