@@ -34,7 +34,7 @@ void testStackGetTop() {
 }
 
 void runStackTests() {
-	printf("running stack tests\n");
+	log_info_header("running stack tests...\n");
 	testCreateStack();
 	testPushPopStack();
 	testStackGetTop();

@@ -30,7 +30,7 @@ void testParentSymbolTableSearch() {
 }
 
 void runSymbolTableTests() {
-	printf("running symbol table tests\n");
+	log_info_header("running symbol table tests...\n");
 	testCreateSymbolTable();
 	testPutInt();
 	testParentSymbolTableSearch();

@@ -28,7 +28,7 @@ void testGetNextElement() {
 }
 
 void runQueueTests() {
-	printf("running queue tests\n");
+	log_info_header("running queue tests...\n");
 	testCreateQueue();
 	testGetNextElement();
 }

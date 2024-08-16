@@ -9,5 +9,6 @@ void testError(char *msg);
 void assertTrue(int a);
 void assertFalse(int b);
 void assertInt(int actual, int expected);
+int passedTests();
 
 #endif

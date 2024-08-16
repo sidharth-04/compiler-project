@@ -1,21 +1,28 @@
 #include "testutils.h"
 
-#define TEST_ERROR(...) log_error(__VA_ARGS__)
+int failure = 0;
 
 void assertTrue(int a) {
 	if (a != 1) {
-		TEST_ERROR("Should be true");
+		log_error_header("Should be true");
+		failure = 1;
 	}
 }
 
 void assertFalse(int b) {
 	if (b == 1) {
-		TEST_ERROR("Should be true");
+		log_error_header("Should be true");
+		failure = 1;
 	}
 }
 
 void assertInt(int actual, int expected) {
 	if (actual != expected) {
-		TEST_ERROR("Expected %i but received %i", expected, actual);
+		log_error_header("Expected %i but received %i", expected, actual);
+		failure = 1;
 	}
+}
+
+int passedTests() {
+	return !failure;
 }
