@@ -1,5 +1,6 @@
-#include "../util/typeSystem.h"
-#include "../util/structures/symbolTable.c"
+#include "testutils.h"
+#include "../util/typesystem/primitives.h"
+#include "../util/structures/symbolTable.h"
 
 void testCreateSymbolTable() {
 	SymbolTableTy st = buildSymbolTable();

@@ -1,4 +1,5 @@
-#include "../util/structures/queue.c"
+#include "testutils.h"
+#include "../util/structures/queue.h"
 
 void testCreateQueue() {
 	QueueTy queue = createQueue();

@@ -2,6 +2,7 @@
 #define stack_h
 
 #include <stdlib.h>
+#include "../loggers/logger.h"
 
 typedef struct Stack *StackTy;
 typedef struct StackNode *StackNodeTy;

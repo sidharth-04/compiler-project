@@ -14,6 +14,11 @@ typedef enum {
 	LOG_INFO
 } LogLevel;
 
-void log_message(LogLevel level, const char *format, ...);
+void log_message(LogLevel level, int include_prefix, const char *format, ...);
+void log_error_header(const char *format, ...);
+void log_error(const char *format, ...);
+void log_info_header(const char *format, ...);
+void log_info(const char *format, ...);
+void indent_by(int amount);
 
 #endif

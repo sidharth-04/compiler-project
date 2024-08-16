@@ -1,5 +1,6 @@
 #include "symbolTable.h"
 #include <string.h>
+#include "../loggers/logger.h"
 
 STEntry *buildSTEntry(char* name, TypeTy type, int typeDeclaration) {
 	STEntry *entry = (STEntry*)malloc(sizeof(STEntry));
@@ -9,7 +10,6 @@ STEntry *buildSTEntry(char* name, TypeTy type, int typeDeclaration) {
 	return entry;
 }
 
-// Generic find operation
 STEntry *find(SymbolTableTy st, char *name) {
 	QueueTy queue = st->entries;
 	queue->resetQueue(queue);
@@ -98,22 +98,22 @@ void destroySymbolTable(SymbolTableTy st) {
 }
 
 void printSymbolTable(SymbolTableTy st) {
-	printf("Printing SymbolTable...\n");
+	log_info_header("Printing SymbolTable...\n");
 	QueueTy queue = st->entries;
 	queue->resetQueue(queue);
 	int i = 1;
-	printf("----------------------\n");
-	if (queue->isEmpty) printf("Queue is empty!\n");
+	log_info("----------------------\n");
+	if (queue->isEmpty) log_info("Queue is empty!\n");
 	while (queue->hasNextElement(queue)) {
 		STEntry *entry = (STEntry *)queue->getNextElement(queue);
-		printf("%d %s: %s\n", i, entry->name, typeToString(entry->type));
+		log_info("%d %s: %s\n", i, entry->name, typeToString(entry->type));
 		i ++;
 	}
 	QueueTy children = st->children;
 	children->resetQueue(children);
-	if (!children->isEmpty) printf("Here are the children:\n");
+	if (!children->isEmpty) log_info("Here are the children:\n");
 	while (children->hasNextElement(children)) {
 		printSymbolTable(children->getNextElement(children));
 	}
-	printf("----------------------\n");
+	log_info("----------------------\n");
 }

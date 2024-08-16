@@ -1,10 +1,10 @@
 #include "logger.h"
 
-void log_message(LogLevel level, const char *format, ...) {
+// Basic logging capabilities
+void log_message(LogLevel level, int include_prefix, const char *format, ...) {
     va_list args;
     va_start(args, format);
 
-    // Choose color based on log level
     const char *color;
     const char *prefix;
     
@@ -23,7 +23,7 @@ void log_message(LogLevel level, const char *format, ...) {
             break;
     }
 
-    // Print log message with color
+	if (!include_prefix) prefix = "";
     printf("%s%s", color, prefix);
     vprintf(format, args);
     printf("%s", RESET_COLOR);
@@ -31,10 +31,49 @@ void log_message(LogLevel level, const char *format, ...) {
     va_end(args);
 }
 
+
+// Utility to print a log error header
+void log_error_header(const char *format, ...) {
+	va_list args;
+    va_start(args, format);
+	log_message(LOG_ERROR, 1, format, args);
+	va_end(args);
+}
+
+// Utility to print a log error
+void log_error(const char *format, ...) {
+	va_list args;
+    va_start(args, format);
+	log_message(LOG_ERROR, 0, format, args);
+	va_end(args);
+}
+
+// Utility to print a log info header
+void log_info_header(const char *format, ...) {
+	va_list args;
+    va_start(args, format);
+	log_message(LOG_INFO, 1, format, args);
+	va_end(args);
+}
+
+// Utility to print log info
+void log_info(const char *format, ...) {
+	va_list args;
+    va_start(args, format);
+	log_message(LOG_INFO, 0, format, args);
+	va_end(args);
+}
+
+// Add indentation in tabs
+void indent_by(int amount) {
+	for (int i = 0; i < amount; i ++) printf("\t");
+}
+
 int main() {
-    log_message(LOG_INFO, "This is an info message.\n");
-    log_message(LOG_ERROR, "This is an error message.\n");
+    log_message(LOG_INFO, 1, "This is an info message.\n");
+    log_message(LOG_ERROR, 1, "This is an error message.\n");
 	char *error = "Oh no an error!!!";
-    log_message(LOG_ERROR, "This is an error message with the following error: %s.\n", error);
+    log_message(LOG_ERROR, 0, "This is an error message with the following error: %s\n", error);
+    log_message(19, 1, "This is an unknown message with the following error: %s\n", error);
     return 0;
 }

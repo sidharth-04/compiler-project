@@ -1,4 +1,5 @@
-#include "../util/structures/stack.c"
+#include "testutils.h"
+#include "../util/structures/stack.h"
 
 void testCreateStack() {
 	StackTy stack = createStack();
