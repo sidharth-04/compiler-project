@@ -3,6 +3,8 @@
 
 #include "../util/structures/symbolTable.h"
 #include "../util/structures/stack.h"
+#include "../util/typesystem/typeSystem.h"
+#include "../util/typesystem/primitives.h"
 #include "lexer/tokenizer.c"
 #include "ast/ast.h"
 
@@ -16,6 +18,8 @@ typedef struct {
 
 
 // Function definitions
+void buildParser(parserState *ps, char filename[], SymbolTableTy st);
+void destroyParser(parserState *ps);
 mod_ty parseProgram(char filename[], SymbolTableTy st);
 mod_ty parseModule(parserState *ps);
 stmt_seq_ty parseStatements(parserState *ps);
@@ -29,38 +33,10 @@ expr_ty parseTerm(parserState *ps);
 expr_ty parseFactor(parserState *ps);
 id_ty parseIdentifier(parserState *ps);
 num_ty parseNumber(parserState *ps);
+
 void advanceParser(parserState *ps);
-
-void advanceParser(parserState *ps) {
-    getToken(ps->tokenizer, ps->currTok);
-}
-int expectToken(parserState *ps, enum TokenType tt) {
-    return ps->currTok->type == tt;
-}
-int expectAndAdvance(parserState *ps, enum TokenType tt) {
-    if (expectToken(ps, tt)) {
-        advanceParser(ps);
-        return 1;
-    }
-    return 0;
-}
-Token *fetchCurrToken(parserState *ps) {
-    return ps->currTok;
-}
-
-void buildParser(parserState *ps, char filename[], SymbolTableTy st) {
-    ps->tokenizer = buildTokenizer(filename);
-    ps->currTok = (Token *)malloc(sizeof(Token));
-    advanceParser(ps);
-	ps->stStack = createStack();
-	ps->stStack->push(ps->stStack, st);
-}
-void destroyParser(parserState *ps) {
-    destroyTokenizer(ps->tokenizer);
-    destroyToken(ps->currTok);
-	pop(ps->stStack);
-	destroyStack(ps->stStack);
-	free(ps);
-}
+int expectToken(parserState *ps, enum TokenType tt);
+int expectAndAdvance(parserState *ps, enum TokenType tt);
+Token *fetchCurrToken(parserState *ps);
 
 #endif

@@ -5,7 +5,7 @@
 #include <llvm-c/Analysis.h>
 #include <llvm-c/BitWriter.h>
 
-#include "util/typesystem/typeSystem.h"
+#include "util/typesystem/primitives.h"
 #include "util/structures/symbolTable.h"
 #include "fe/parser.h"
 #include "visitors/visitor.h"
@@ -15,6 +15,7 @@
 #include "util/loggers/errorLogger.h";
 
 // Populate symbol table with primitives
+// Don't do this, it sucks
 void populatePrimitives(SymbolTableTy st) {
 	st->put(st, "int", primitives.Int, 1);
 	st->put(st, "bool", primitives.Bool, 1);

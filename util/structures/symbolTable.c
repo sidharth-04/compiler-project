@@ -1,6 +1,14 @@
 #include "symbolTable.h"
 #include <string.h>
 
+STEntry *buildSTEntry(char* name, TypeTy type, int typeDeclaration) {
+	STEntry *entry = (STEntry*)malloc(sizeof(STEntry));
+	entry->name = name;
+	entry->type = type;
+	entry->typeDeclaration = typeDeclaration;
+	return entry;
+}
+
 // Generic find operation
 STEntry *find(SymbolTableTy st, char *name) {
 	QueueTy queue = st->entries;

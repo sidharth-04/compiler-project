@@ -1,5 +1,19 @@
 #include "parser.h"
-#include "../util/loggers/parserLogger.h"
+
+void buildParser(parserState *ps, char filename[], SymbolTableTy st) {
+    ps->tokenizer = buildTokenizer(filename);
+    ps->currTok = (Token *)malloc(sizeof(Token));
+    advanceParser(ps);
+	ps->stStack = createStack();
+	ps->stStack->push(ps->stStack, st);
+}
+void destroyParser(parserState *ps) {
+    destroyTokenizer(ps->tokenizer);
+    destroyToken(ps->currTok);
+	pop(ps->stStack);
+	destroyStack(ps->stStack);
+	free(ps);
+}
 
 mod_ty parseModule(parserState *ps) {
     stmt_seq_ty body;
@@ -85,7 +99,7 @@ stmt_ty parseAssignment(parserState *ps) {
 	TypeTy typehint;
 	id_ty second;
     expr_ty value;
-	SymbolTableTy topST = getTopSymbolTable(ps);
+	SymbolTableTy topST = (SymbolTableTy)ps->stStack->getTop(ps->stStack);
     if (!(first = parseIdentifier(ps))) {
 		logError(ps, "Expected identifier");
 		return 0;
@@ -302,4 +316,22 @@ mod_ty parseProgram(char filename[], SymbolTableTy st) {
         printf("============\n");
     	return 0;
     }
+}
+
+// UTILITIES
+void advanceParser(parserState *ps) {
+    getToken(ps->tokenizer, ps->currTok);
+}
+int expectToken(parserState *ps, enum TokenType tt) {
+    return ps->currTok->type == tt;
+}
+int expectAndAdvance(parserState *ps, enum TokenType tt) {
+    if (expectToken(ps, tt)) {
+        advanceParser(ps);
+        return 1;
+    }
+    return 0;
+}
+Token *fetchCurrToken(parserState *ps) {
+    return ps->currTok;
 }

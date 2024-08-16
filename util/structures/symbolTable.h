@@ -10,6 +10,7 @@
 #include "../values/StringValue.h"
 
 #include "queue.h"
+#include "../typesystem/typeSystem.h"
 #include <stdio.h>
 
 typedef struct SymbolTable *SymbolTableTy;
@@ -42,14 +43,7 @@ struct SymbolTable {
 	void (*setValue)(SymbolTableTy, char*, void*);
 };
 
-STEntry *buildSTEntry(char* name, TypeTy type, int typeDeclaration) {
-	STEntry *entry = (STEntry*)malloc(sizeof(STEntry));
-	entry->name = name;
-	entry->type = type;
-	entry->typeDeclaration = typeDeclaration;
-	return entry;
-}
-
+STEntry *buildSTEntry(char* name, TypeTy type, int typeDeclaration);
 STEntry *find(SymbolTableTy st, char *name);
 int contains(SymbolTableTy st, char *name);
 int search(SymbolTableTy st, char *name);

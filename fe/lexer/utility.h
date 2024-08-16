@@ -8,7 +8,7 @@
 #include "token.h"
 
 static const char *getTokenText(enum TokenType tt) {
-  return tokenStrings[tt];
+	return "Need to fix this lol";
 }
 
 static void printToken(Token *tok) {
