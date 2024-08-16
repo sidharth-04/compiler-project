@@ -9,11 +9,11 @@ void testCreateSymbolTable() {
 void testPutInt() {
 	SymbolTableTy st = buildSymbolTable();
 	st->put(st, "a", buildPrimitive(INT), 0);
-	assertTrue(st->contains(st, "a"));
-	assertFalse(st->contains(st, "b"));
+	ASSERT_TRUE(st->contains(st, "a"));
+	ASSERT_FALSE(st->contains(st, "b"));
 	st->put(st, "b", buildPrimitive(CHAR), 0);
-	assertTrue(st->contains(st, "b"));
-	assertTrue(st->contains(st, "a"));
+	ASSERT_TRUE(st->contains(st, "b"));
+	ASSERT_TRUE(st->contains(st, "a"));
 }
 
 void testParentSymbolTableSearch() {
@@ -23,14 +23,13 @@ void testParentSymbolTableSearch() {
 	st1->put(st1, "a", buildPrimitive(INT), 0);
 	st1->addChild(st1, st2); // Add st2 as child
 	st3->setParent(st3, st2);
-	assertTrue(st1->contains(st1, "a"));
-	assertFalse(st3->contains(st3, "a"));
-	assertFalse(st2->contains(st3, "a"));
-	assertTrue(st3->search(st3, "a"));
+	ASSERT_TRUE(st1->contains(st1, "a"));
+	ASSERT_FALSE(st3->contains(st3, "a"));
+	ASSERT_FALSE(st2->contains(st3, "a"));
+	ASSERT_TRUE(st3->search(st3, "a"));
 }
 
 void runSymbolTableTests() {
-	log_info_header("running symbol table tests...\n");
 	testCreateSymbolTable();
 	testPutInt();
 	testParentSymbolTableSearch();

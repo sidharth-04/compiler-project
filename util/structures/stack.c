@@ -37,6 +37,6 @@ void destroyStack(StackTy stack) {
 }
 
 void printStack(StackTy st) {
-	log_info_header("Printing Stack...\n");
-	log_info("----------------------\n");
+	LOG_INFO_HEADER("Printing Stack...\n");
+	LOG_INFO("----------------------\n");
 }

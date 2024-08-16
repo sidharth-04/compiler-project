@@ -3,12 +3,12 @@
 
 void testCreateQueue() {
 	QueueTy queue = createQueue();
-	assertFalse(queue->hasNextElement(queue));
+	ASSERT_FALSE(queue->hasNextElement(queue));
 	int a = 1;
 	queue->attachNodeToQueue(queue, (void*)&a);
-	assertTrue(queue->hasNextElement(queue));
-	assertInt(*(int*)queue->getNextElement(queue), 1);
-	assertFalse(queue->hasNextElement(queue));
+	ASSERT_TRUE(queue->hasNextElement(queue));
+	ASSERT_INT(*(int*)queue->getNextElement(queue), 1);
+	ASSERT_FALSE(queue->hasNextElement(queue));
 }
 
 void testGetNextElement() {
@@ -21,14 +21,13 @@ void testGetNextElement() {
 	queue->attachNodeToQueue(queue, (void*)&c);
 	int d = 3;
 	queue->attachNodeToQueue(queue, (void*)&d);
-	assertInt(*(int*)queue->getNextElement(queue), 1);
-	assertInt(*(int*)queue->getNextElement(queue), 2);
-	assertInt(*(int*)queue->getNextElement(queue), 4);
-	assertInt(*(int*)queue->getNextElement(queue), 3);
+	ASSERT_INT(*(int*)queue->getNextElement(queue), 1);
+	ASSERT_INT(*(int*)queue->getNextElement(queue), 2);
+	ASSERT_INT(*(int*)queue->getNextElement(queue), 4);
+	ASSERT_INT(*(int*)queue->getNextElement(queue), 3);
 }
 
 void runQueueTests() {
-	log_info_header("running queue tests...\n");
 	testCreateQueue();
 	testGetNextElement();
 }

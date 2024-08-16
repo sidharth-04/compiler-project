@@ -98,22 +98,22 @@ void destroySymbolTable(SymbolTableTy st) {
 }
 
 void printSymbolTable(SymbolTableTy st) {
-	log_info_header("Printing SymbolTable...\n");
+	LOG_INFO_HEADER("Printing SymbolTable...\n");
 	QueueTy queue = st->entries;
 	queue->resetQueue(queue);
 	int i = 1;
-	log_info("----------------------\n");
-	if (queue->isEmpty) log_info("Queue is empty!\n");
+	LOG_INFO("----------------------\n");
+	if (queue->isEmpty) LOG_INFO("Queue is empty!\n");
 	while (queue->hasNextElement(queue)) {
 		STEntry *entry = (STEntry *)queue->getNextElement(queue);
-		log_info("%d %s: %s\n", i, entry->name, typeToString(entry->type));
+		LOG_INFO("%d %s: %s\n", i, entry->name, typeToString(entry->type));
 		i ++;
 	}
 	QueueTy children = st->children;
 	children->resetQueue(children);
-	if (!children->isEmpty) log_info("Here are the children:\n");
+	if (!children->isEmpty) LOG_INFO("Here are the children:\n");
 	while (children->hasNextElement(children)) {
 		printSymbolTable(children->getNextElement(children));
 	}
-	log_info("----------------------\n");
+	LOG_INFO("----------------------\n");
 }

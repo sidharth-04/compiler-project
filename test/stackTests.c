@@ -5,7 +5,7 @@ void testCreateStack() {
 	StackTy stack = createStack();
 	int a = 1;
 	stack->push(stack, &a);
-	assertInt(*(int*)stack->pop(stack), 1);
+	ASSERT_INT(*(int*)stack->pop(stack), 1);
 }
 
 void testPushPopStack() {
@@ -14,11 +14,11 @@ void testPushPopStack() {
 	stack->push(stack, &a);
 	int b = 3;
 	stack->push(stack, &b);
-	assertInt(*(int*)stack->pop(stack), 3);
+	ASSERT_INT(*(int*)stack->pop(stack), 3);
 	int c = 12;
 	stack->push(stack, &c);
-	assertInt(*(int*)stack->pop(stack), 12);
-	assertInt(*(int*)stack->pop(stack), 1);
+	ASSERT_INT(*(int*)stack->pop(stack), 12);
+	ASSERT_INT(*(int*)stack->pop(stack), 1);
 }
 
 void testStackGetTop() {
@@ -27,14 +27,13 @@ void testStackGetTop() {
 	stack->push(stack, &a);
 	int b = 10;
 	stack->push(stack, &b);
-	assertInt(*(int*)stack->getTop(stack), 10);
-	assertInt(*(int*)stack->getTop(stack), 10);
-	assertInt(*(int*)stack->pop(stack), 10);
-	assertInt(*(int*)stack->getTop(stack), 1);
+	ASSERT_INT(*(int*)stack->getTop(stack), 10);
+	ASSERT_INT(*(int*)stack->getTop(stack), 10);
+	ASSERT_INT(*(int*)stack->pop(stack), 10);
+	ASSERT_INT(*(int*)stack->getTop(stack), 1);
 }
 
 void runStackTests() {
-	log_info_header("running stack tests...\n");
 	testCreateStack();
 	testPushPopStack();
 	testStackGetTop();

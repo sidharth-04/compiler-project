@@ -34,29 +34,3 @@ void log_message(LogLevel level, int include_prefix, const char *format, ...) {
 
     va_end(args);
 }
-
-#define LOG_MESSAGE(LEVEL, HEADER, ...) log_message(LEVEL, HEADER, __VA_ARGS__)
-
-void log_error_header(const char *format, ...) {
-	LOG_MESSAGE(LOG_ERROR, 1, format);
-}
-void log_error(const char *format, ...) {
-	LOG_MESSAGE(LOG_ERROR, 0, format);
-}
-void log_info_header(const char *format, ...) {
-	LOG_MESSAGE(LOG_INFO, 1, format);
-}
-void log_info(const char *format, ...) {
-	LOG_MESSAGE(LOG_INFO, 0, format);
-}
-void log_success_header(const char *format, ...) {
-	LOG_MESSAGE(LOG_SUCCESS, 1, format);
-}
-void log_success(const char *format, ...) {
-	LOG_MESSAGE(LOG_SUCCESS, 0, format);
-}
-
-// Add indentation in tabs
-void indent_by(int amount) {
-	for (int i = 0; i < amount; i ++) printf("\t");
-}
