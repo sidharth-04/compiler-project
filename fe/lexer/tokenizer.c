@@ -1,19 +1,12 @@
-#include <stdlib.h>
-#include "utility.h"
-#include "bufin/bufferedStream.c"
+#include "tokenizer.h"
 
-typedef struct {
-	char currId[1000];
-	BufferedStream *stream;
-} Tokenizer;
-
-void buildTokenizer(Tokenizer *tokenizer, char filename[]) {
-	tokenizer->stream = (BufferedStream *)malloc(sizeof(BufferedStream));
-	buildBufferedStream(tokenizer->stream, filename);
+Tokenizer *buildTokenizer(char filename[]) {
+	Tokenizer *tokenizer = (Tokenizer*)malloc(sizeof(Tokenizer));
+	tokenizer->stream = buildBufferedStream(filename);
+	return tokenizer;
 }
 void destroyTokenizer(Tokenizer *tokenizer) {
 	destroyBufferedStream(tokenizer->stream);
-	free(tokenizer->stream);
 	free(tokenizer);
 }
 
@@ -240,11 +233,10 @@ static void getToken(Tokenizer *tokenizer, Token *tok) {
 }
 
 int testTokenizer() {
-	Tokenizer tokenizer;
-	buildTokenizer(&tokenizer, "hello.cd");
+	Tokenizer *tokenizer = buildTokenizer("hello.cd");
 	while (1) {
 		Token tok;
-		getToken(&tokenizer, &tok);
+		getToken(tokenizer, &tok);
 		if (tok.type == END_OF_FILE) return 0;
 		printToken(&tok);
 		if (tok.type == ERROR) return 0;

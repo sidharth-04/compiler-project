@@ -1,5 +1,8 @@
+#ifndef ast_h
+#define ast_h
+
+#include <string.h>
 #include <stdio.h>
-#include "astDefs.h"
 #include "astStructure.h"
 
 mod_ty createModuleAST(char name[], stmt_seq_ty body) {
@@ -128,3 +131,5 @@ num_ty createNumberAST(double value) {
     number->v = value;
     return number;
 }
+
+#endif

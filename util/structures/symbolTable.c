@@ -88,3 +88,24 @@ SymbolTableTy buildSymbolTable() {
 void destroySymbolTable(SymbolTableTy st) {
 	return;
 }
+
+void printSymbolTable(SymbolTableTy st) {
+	printf("Printing SymbolTable...\n");
+	QueueTy queue = st->entries;
+	queue->resetQueue(queue);
+	int i = 1;
+	printf("----------------------\n");
+	if (queue->isEmpty) printf("Queue is empty!\n");
+	while (queue->hasNextElement(queue)) {
+		STEntry *entry = (STEntry *)queue->getNextElement(queue);
+		printf("%d %s: %s\n", i, entry->name, typeToString(entry->type));
+		i ++;
+	}
+	QueueTy children = st->children;
+	children->resetQueue(children);
+	if (!children->isEmpty) printf("Here are the children:\n");
+	while (children->hasNextElement(children)) {
+		printSymbolTable(children->getNextElement(children));
+	}
+	printf("----------------------\n");
+}

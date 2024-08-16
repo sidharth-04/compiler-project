@@ -41,7 +41,7 @@ void coerceType(TypeTy first, TypeTy second) {
 	}
 }
 
-char *typeToString(TypeTy type) {
+const char *typeToString(TypeTy type) {
 	switch (type->cat) {
 		case GENERIC:
 			return "generic";

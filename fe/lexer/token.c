@@ -1,48 +1,4 @@
-enum TokenType {
-  	END_OF_FILE,
-	ID,
-	NUM,
-	STRING,
-	ERROR,
-	DEF,
-	LET,
-	TYPE,
-	IF,
-	THEN,
-	ELSE,
-	OR,
-	AND,
-	LPAR,
-	RPAR,
-	LSQB,
-	RSQB,
-	COLON,
-	COMMA,
-	SEMI,
-	PLUS,
-	MINUS,
-	STAR,
-	SLASH,
-	LESS,
-	GREATER,
-	EQUAL,
-	DOT,
-	PERCENT,
-	LBRACE,
-	RBRACE,
-	EXCLM,
-	EQEQUAL,
-	NOTEQUAL,
-	LESSEQUAL,
-	GREATEREQUAL,
-	PLUSEQUAL,
-	MINEQUAL,
-	STAREQUAL,
-	SLASHEQUAL,
-	PERCENTEQUAL,
-	PLUSPLUS,
-	MINMIN
-};
+#include "token.h"
 
 const char *tokenStrings[] = {
 	"END_OF_FILE", "ID", "NUM", "STRING", "ERROR",
@@ -52,14 +8,6 @@ const char *tokenStrings[] = {
 	"(", ")", "[", "]", ":", ",", ";", "+", "-", "*", "/", "<", ">", "=", ".", "%", "{", "}", "!",
 	"==", "!=", "<=", ">=", "+=", "-=", "*=", "/=", "%=", "++", "--"
 };
-
-typedef struct {
-	char *lexeme;
-	float numericValue;
-	int lineNo;
-	enum TokenType type;
-	char *errorMsg;
-} Token;
 
 void buildToken(Token *token, enum TokenType type, int lineNo) {
 	token->type = type;

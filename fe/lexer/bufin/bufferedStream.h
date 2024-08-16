@@ -1,5 +1,5 @@
-#ifndef clox_bufferedstream_h
-#define clox_bufferedstream_h
+#ifndef bufferedstream_h
+#define bufferedstream_h
 
 #include "buffer.h"
 

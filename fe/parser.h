@@ -1,3 +1,8 @@
+#ifndef parser_h
+#define parser_h
+
+#include "../util/structures/symbolTable.h"
+#include "../util/structures/stack.h"
 #include "lexer/tokenizer.c"
 #include "ast/ast.h"
 
@@ -7,9 +12,11 @@ typedef struct {
 	StackTy stStack;
 } parserState;
 
-#include "parserUtils.h"
+#include "../util/loggers/parserLogger.h"
+
 
 // Function definitions
+mod_ty parseProgram(char filename[], SymbolTableTy st);
 mod_ty parseModule(parserState *ps);
 stmt_seq_ty parseStatements(parserState *ps);
 stmt_ty parseStatement(parserState *ps);
@@ -42,8 +49,7 @@ Token *fetchCurrToken(parserState *ps) {
 }
 
 void buildParser(parserState *ps, char filename[], SymbolTableTy st) {
-    ps->tokenizer = (Tokenizer *)malloc(sizeof(Tokenizer));
-    buildTokenizer(ps->tokenizer, filename);
+    ps->tokenizer = buildTokenizer(filename);
     ps->currTok = (Token *)malloc(sizeof(Token));
     advanceParser(ps);
 	ps->stStack = createStack();
@@ -51,10 +57,10 @@ void buildParser(parserState *ps, char filename[], SymbolTableTy st) {
 }
 void destroyParser(parserState *ps) {
     destroyTokenizer(ps->tokenizer);
-    free(ps->tokenizer);
     destroyToken(ps->currTok);
-    free(ps->currTok);
 	pop(ps->stStack);
 	destroyStack(ps->stStack);
-	free(ps->stStack);
+	free(ps);
 }
+
+#endif

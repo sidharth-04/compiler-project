@@ -1,3 +1,6 @@
+#ifndef queue_h
+#define queue_h
+
 #include <stdlib.h>
 
 typedef struct Queue *QueueTy;
@@ -21,3 +24,11 @@ struct Queue {
   int (*hasNextElement)(QueueTy);
   void* (*getNextElement)(QueueTy);
 };
+
+void attachNodeToQueue(QueueTy acc, void *tail);
+void resetQueue(QueueTy queue);
+int hasNextElement(QueueTy queue);
+void *getNextElement(QueueTy queue);
+QueueTy createQueue();
+
+#endif

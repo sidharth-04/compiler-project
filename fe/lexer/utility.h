@@ -1,7 +1,11 @@
+#ifndef parser_utility
+#define parser_utility
+
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "token.c"
+#include <stdlib.h>
+#include "token.h"
 
 static const char *getTokenText(enum TokenType tt) {
   return tokenStrings[tt];
@@ -73,3 +77,5 @@ int isNonzeroDigit(char c) {
 
 int stringMatch() {
 }
+
+#endif

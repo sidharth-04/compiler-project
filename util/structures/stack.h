@@ -1,3 +1,8 @@
+#ifndef stack_h
+#define stack_h
+
+#include <stdlib.h>
+
 typedef struct Stack *StackTy;
 typedef struct StackNode *StackNodeTy;
 
@@ -12,4 +17,10 @@ struct Stack {
 	void *(*getTop)(StackTy);
 };
 
+void push(StackTy stack, void *element);
+void *getTop(StackTy stack);
+void *pop(StackTy stack);
+StackTy createStack();
+void destroyStack(StackTy stack);
 
+#endif

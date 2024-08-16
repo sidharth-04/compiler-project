@@ -1,3 +1,9 @@
+#ifndef _ast_defs
+#define _ast_defs
+
+#include "astDefs.h"
+#include "../../util/structures/queue.h"
+
 enum _mod_kind {
   Stmts_kind = 1
 };
@@ -90,3 +96,5 @@ struct _id {
 struct _num {
   double v;
 };
+
+#endif

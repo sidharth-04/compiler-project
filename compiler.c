@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 // LLVM Core Libraries
 #include <llvm-c/Core.h>
 #include <llvm-c/ExecutionEngine.h>
@@ -8,11 +5,9 @@
 #include <llvm-c/Analysis.h>
 #include <llvm-c/BitWriter.h>
 
-#include "util/structures/queue.c"
-#include "util/structures/stack.c"
 #include "util/typesystem/typeSystem.h"
-#include "util/structures/symbolTable.c"
-#include "fe/parser.c"
+#include "util/structures/symbolTable.h"
+#include "fe/parser.h"
 #include "visitors/visitor.h"
 // #include "visitors/typecheckVisitor.h"
 // #include "visitors/generatorVisitor.h"
@@ -33,7 +28,7 @@ int main(int argc, char const *argv[]) {
         logCompilerError("Usage: ./compiler program");
         exit(EXIT_FAILURE);
     }
-	char *programName = strcat(argv[1], ".cd");
+	const char *programName = strcat(argv[1], ".cd");
 
 	buildPrimitives();
 	SymbolTableTy st = buildSymbolTable();
