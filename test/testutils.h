@@ -5,8 +5,6 @@
 #include <string.h>
 #include "../util/loggers/logger.h"
 
-// log_error_header(__VA_ARGS__); \
-
 #define LOG_TEST_ERROR(...) \
     do { \
         LOG_ERROR("At %s, line %d:\n", __FILE__, __LINE__); \
@@ -36,9 +34,6 @@
             LOG_TEST_ERROR("Assertion failed: expected %d but got %d.\n", (_temp_expected), (_temp_actual)); \
         } \
     } while (0)
-
-
-        // LOG_ERROR_HEADER("Test failed.\n"); \
 
 #define FAIL_TEST() \
     do { \
