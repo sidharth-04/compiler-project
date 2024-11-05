@@ -57,7 +57,6 @@ typedef struct {
 	char *errorMsg;
 } Token;
 
-
 void buildToken(Token *token, enum TokenType type, int lineNo);
 void buildErrToken(Token *token, int lineNo, char *errorMsg);
 void destroyToken(Token *token);

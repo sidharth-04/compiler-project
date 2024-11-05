@@ -32,7 +32,6 @@ typedef enum {
 #define LOG_SUCCESS_HEADER(format, ...) LOG_MESSAGE(LOG_SUCCESS, 1, format, ##__VA_ARGS__)
 #define LOG_SUCCESS(format, ...) LOG_MESSAGE(LOG_SUCCESS, 0, format, ##__VA_ARGS__)
 
-
 void log_message(LogLevel level, int include_prefix, const char *format, ...);
 
 #endif

@@ -1,5 +1,13 @@
 #include "parser.h"
 
+void logError(parserState *ps, const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+	LOG_ERROR_HEADER("Error with token %s", tokenStrings[ps->currTok]);
+	LOG_ERROR_HEADER(format, args);
+    va_end(args);
+}
+
 void buildParser(parserState *ps, char filename[], SymbolTableTy st) {
     ps->tokenizer = buildTokenizer(filename);
     ps->currTok = (Token *)malloc(sizeof(Token));

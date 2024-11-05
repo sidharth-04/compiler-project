@@ -1,6 +1,7 @@
 #ifndef parser_h
 #define parser_h
 
+#include "../util/loggers/logger.h"
 #include "../util/structures/symbolTable.h"
 #include "../util/structures/stack.h"
 #include "../util/typesystem/typeSystem.h"
@@ -13,9 +14,6 @@ typedef struct {
 	Token *currTok;
 	StackTy stStack;
 } parserState;
-
-#include "../util/loggers/parserLogger.h"
-
 
 // Function definitions
 void buildParser(parserState *ps, char filename[], SymbolTableTy st);
